@@ -9,4 +9,5 @@ psi.*
 6004/psi.*
 3160/psi.*
 quantumchem/psi.*
-
+polaritonic_and_more/.ipynb_checkpoints/*
+polaritonic_and_more/output.dat

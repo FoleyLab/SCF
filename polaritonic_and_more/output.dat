@@ -1,16 +1,16 @@
 
-Scratch directory: C:\Users\jonat\AppData\Local\Temp/
+Scratch directory: /tmp/
 
-*** tstart() called on DESKTOP-UDS81DK
-*** at Wed Jul  7 21:23:02 2021
+*** tstart() called on Jonathans-MacBook-Pro-2.local
+*** at Fri Jul  9 09:41:07 2021
 
    => Loading Basis Set <=
 
     Name: CC-PVDZ
     Role: ORBITAL
     Keyword: BASIS
-    atoms 1   entry O          line   198 file C:\Users\jonat\anaconda3\envs\wpspec\lib\share\psi4\basis\cc-pvdz.gbs 
-    atoms 2-3 entry H          line    22 file C:\Users\jonat\anaconda3\envs\wpspec\lib\share\psi4\basis\cc-pvdz.gbs 
+    atoms 1   entry O          line   198 file /opt/anaconda3/share/psi4/basis/cc-pvdz.gbs 
+    atoms 2-3 entry H          line    22 file /opt/anaconda3/share/psi4/basis/cc-pvdz.gbs 
 
 
          ---------------------------------------------------------
@@ -115,17 +115,17 @@ Scratch directory: C:\Users\jonat\AppData\Local\Temp/
 
                         Total Energy        Delta E     RMS |[F,P]|
 
-   @RHF iter SAD:   -75.31004289294351   -7.53100e+01   0.00000e+00 
-   @RHF iter   1:   -75.90395951376641   -5.93917e-01   1.77293e-02 DIIS
-   @RHF iter   2:   -75.96010342070515   -5.61439e-02   1.20654e-02 DIIS
-   @RHF iter   3:   -75.98908681481099   -2.89834e-02   1.11871e-03 DIIS
-   @RHF iter   4:   -75.98974344995672   -6.56635e-04   3.28288e-04 DIIS
-   @RHF iter   5:   -75.98979390632417   -5.04564e-05   5.33700e-05 DIIS
-   @RHF iter   6:   -75.98979573871560   -1.83239e-06   7.91659e-06 DIIS
-   @RHF iter   7:   -75.98979578421611   -4.55005e-08   1.70392e-06 DIIS
-   @RHF iter   8:   -75.98979578705955   -2.84344e-09   4.54701e-07 DIIS
-   @RHF iter   9:   -75.98979578728517   -2.25626e-10   6.72051e-08 DIIS
-   @RHF iter  10:   -75.98979578728877   -3.59535e-12   6.54295e-09 DIIS
+   @RHF iter SAD:   -75.31004289294356   -7.53100e+01   0.00000e+00 
+   @RHF iter   1:   -75.90395951376644   -5.93917e-01   1.77293e-02 DIIS
+   @RHF iter   2:   -75.96010342070511   -5.61439e-02   1.20654e-02 DIIS
+   @RHF iter   3:   -75.98908681481097   -2.89834e-02   1.11871e-03 DIIS
+   @RHF iter   4:   -75.98974344995679   -6.56635e-04   3.28288e-04 DIIS
+   @RHF iter   5:   -75.98979390632410   -5.04564e-05   5.33700e-05 DIIS
+   @RHF iter   6:   -75.98979573871550   -1.83239e-06   7.91659e-06 DIIS
+   @RHF iter   7:   -75.98979578421601   -4.55005e-08   1.70392e-06 DIIS
+   @RHF iter   8:   -75.98979578705956   -2.84355e-09   4.54701e-07 DIIS
+   @RHF iter   9:   -75.98979578728523   -2.25668e-10   6.72051e-08 DIIS
+   @RHF iter  10:   -75.98979578728876   -3.52429e-12   6.54295e-09 DIIS
   Energy and wave function converged.
 
 
@@ -153,14 +153,14 @@ Scratch directory: C:\Users\jonat\AppData\Local\Temp/
               A 
     DOCC [     5 ]
 
-  @RHF Final Energy:   -75.98979578728877
+  @RHF Final Energy:   -75.98979578728876
 
    => Energetics <=
 
     Nuclear Repulsion Energy =              8.0023664821734215
-    One-Electron Energy =                -120.9634075867134584
-    Two-Electron Energy =                  36.9712453172512738
-    Total Energy =                        -75.9897957872887702
+    One-Electron Energy =                -120.9634075867133873
+    Two-Electron Energy =                  36.9712453172512099
+    Total Energy =                        -75.9897957872887559
 
 Computation Completed
 
@@ -173,21 +173,21 @@ Properties computed using the SCF density matrix
      X:     0.0000      Y:     0.0000      Z:     1.1273
 
   Electronic Dipole Moment: [e a0]
-     X:    -0.0000      Y:     0.0000      Z:    -0.2709
+     X:     0.0000      Y:     0.0000      Z:    -0.2709
 
   Dipole Moment: [e a0]
-     X:    -0.0000      Y:     0.0000      Z:     0.8564     Total:     0.8564
+     X:     0.0000      Y:     0.0000      Z:     0.8564     Total:     0.8564
 
   Dipole Moment: [D]
-     X:    -0.0000      Y:     0.0000      Z:     2.1766     Total:     2.1766
+     X:     0.0000      Y:     0.0000      Z:     2.1766     Total:     2.1766
 
 
-*** tstop() called on DESKTOP-UDS81DK at Wed Jul  7 21:23:02 2021
+*** tstop() called on Jonathans-MacBook-Pro-2.local at Fri Jul  9 09:41:07 2021
 Module time:
-	user time   =        nan seconds =        nan minutes
-	system time =        nan seconds =        nan minutes
+	user time   =       0.19 seconds =       0.00 minutes
+	system time =       0.01 seconds =       0.00 minutes
 	total time  =          0 seconds =       0.00 minutes
 Total time:
-	user time   =        nan seconds =        nan minutes
-	system time =        nan seconds =        nan minutes
-	total time  =        117 seconds =       1.95 minutes
+	user time   =       0.95 seconds =       0.02 minutes
+	system time =       0.06 seconds =       0.00 minutes
+	total time  =        245 seconds =       4.08 minutes
