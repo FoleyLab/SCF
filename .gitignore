@@ -1,3 +1,6 @@
+polaritonic_and_more/output.dat
+polaritonic_and_more/__pycache__/*
+polaritonic_and_more/.DS_Store*
 .ipynb_checkpoints/*
 6004/WEEK1/.ipynb_checkpoints/*
 6004/WEEK2/.ipynb_checkpoints/*
