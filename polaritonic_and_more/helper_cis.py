@@ -197,4 +197,4 @@ def cis(molecule_string, psi4_options_dict):
     # return first excited state energy
     # ground and first excited state total dipole moment
     # and g->e1 transition dipole moment
-    return ECIS[0], cis_dipole, tdm
+    return ECIS, cis_dipole, tdm
