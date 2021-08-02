@@ -53,10 +53,8 @@ def cis(molecule_string, psi4_options_dict):
     # run psi4 to get ordinary scf energy and wavefunction object
     scf_e, wfn = psi4.energy('scf', return_wfn=True)
     
-    
     # ==> Nuclear Repulsion Energy <==
     E_nuc = mol.nuclear_repulsion_energy()
-    
     nmo = wfn.nmo()
 
     # Create instance of MintsHelper class
@@ -92,8 +90,6 @@ def cis(molecule_string, psi4_options_dict):
     E_nuc = mol.nuclear_repulsion_energy()
     
     print("\nNumber of occupied orbitals: %d" % ndocc)
-    print("Nuclear energy", E_nuc)
-    print("scf energy is", scf_e)
     
     # 2 electron integrals in ao basis
     #I = np.asarray(mints.ao_eri())
