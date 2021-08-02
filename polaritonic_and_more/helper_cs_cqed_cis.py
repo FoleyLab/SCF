@@ -1,5 +1,5 @@
 """
-Helper function for CQED_CIS in the CQED_RHF basis
+Helper function for CQED_CIS in the coherent state basis optimized by cqed_rhf
 
 """
 
@@ -17,7 +17,7 @@ import scipy.linalg as la
 import time
 from helper_cqed_rhf import *
 
-def transformed_cqed_cis(lam, molecule_string, psi4_options_dict, omega_val):
+def cs_cqed_cis(lam, molecule_string, psi4_options_dict, omega_val):
     """ Computes the QED-CIS energy and wavefunction
 
         Arguments
@@ -33,14 +33,14 @@ def transformed_cqed_cis(lam, molecule_string, psi4_options_dict, omega_val):
 
         Returns
         -------
-        psi4_cis_energy : float
+        psi4_scf_energy : float
             Ground state energy from canonical RHF wavefunction from
 
         cqed_cis_energy : float
-            Ground state energy of the CQED_RHF wavefunction
+            Array of excitation energies computed from cs_cqed_cis Hamiltonian
 
         cqed_cis_wavefunction : 1 x nocc * nvirt * nphoton array of floats
-            Transformation vectors corresponding to the CQED_RHF orbitals
+            cs_cqed_cis eigenvectors
 
         Example
         -------
@@ -208,10 +208,26 @@ def transformed_cqed_cis(lam, molecule_string, psi4_options_dict, omega_val):
 
 
     # create Hamiltonian for elements H[ias, jbt]
-    HCIS = np.zeros((ndocc * nvirt * 2, ndocc * nvirt * 2))
+    HCIS = np.zeros((ndocc * nvirt * 2 + 2, ndocc * nvirt * 2 + 2))
+
+    HCIS[0,0] = d_c
+    HCIS[1,1] = np.sqrt(1) * omega_val + d_c
+
     
     # (\lambda \cdot \mu_nuc - \lambda \cdot <\mu>) term
     dc_offset = l_dot_mu_nuc - l_dot_mu_exp
+
+    # elements corresponding to <s|<\Phi_0 | H | \Phi_i^a>|t>
+    for s in range(0,2):
+        for i in range(0,ndocc):
+            for a in range(0,nvirt):
+                A = a + ndocc
+                for t in range(0,2):
+                    iat = 2*(i*nvirt + a) + t + 2
+                    HCIS[s,iat] = -np.sqrt(omega_val/2) *  l_dot_mu_el[i,A] * (s==t+1)
+                    HCIS[s,iat] -= np.sqrt(omega_val/2) *  l_dot_mu_el[i,A] * (s+1==t)
+                    HCIS[iat,s] = -np.sqrt(omega_val/2) *  l_dot_mu_el[i,A] * (s==t+1)
+                    HCIS[iat,s] -= np.sqrt(omega_val/2) *  l_dot_mu_el[i,A] * (s+1==t)
     
 
     # elements corresponding to <s|<\Phi_i^a| H | \Phi_j^b|t>
@@ -219,20 +235,20 @@ def transformed_cqed_cis(lam, molecule_string, psi4_options_dict, omega_val):
         for a in range(0, nvirt):
             A = a+ndocc
             for s in range(0,2):
-                ias = 2*(i*nvirt + a) + s 
+                ias = 2*(i*nvirt + a) + s + 2
                 
                 for j in range(0, ndocc):
                     for b in range(0, nvirt):
                         B = b+ndocc
                         for t in range(0,2):
-                            jbt = 2*(j*nvirt + b) + t
+                            jbt = 2*(j*nvirt + b) + t + 2
                             # ERIs
                             HCIS[ias,jbt] =  (2.0 * ovov[i, a, j, b] - oovv[i, j, a, b]) * (s==t)
                             # 2-electron dipole terms
                             # ordinary
-                            HCIS[ias,jbt] += (2.0 * l_dot_mu_el[i,a] * l_dot_mu_el[j,b]) * (s==t)
+                            HCIS[ias,jbt] += (2.0 * l_dot_mu_el[i,A] * l_dot_mu_el[j,B]) * (s==t)
                             # exchange
-                            HCIS[ias,jbt] -= l_dot_mu_el[i,j] * l_dot_mu_el[a,b] * (s==t)
+                            HCIS[ias,jbt] -= l_dot_mu_el[i,j] * l_dot_mu_el[A,B] * (s==t)
                             # 1-electron orbital energies
                             HCIS[ias,jbt] += eps_v[a] * (s==t) * (a==b) * (i==j)
                             HCIS[ias,jbt] -= eps_o[i] * (s==t) * (a==b) * (i==j)
