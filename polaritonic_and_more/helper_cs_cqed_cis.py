@@ -279,5 +279,131 @@ def cs_cqed_cis(lam, molecule_string, psi4_options_dict, omega_val):
     else:
         ECIS, CCIS = np.linalg.eig(HCIS)
 
-    # just return the energies for now!
-    return scf_e, ECIS, CCIS
+
+
+    cqed_cis_dict = {
+        'rhf_energy' : scf_e,
+        'cqed_rhf_energy' : cqed_scf_e,
+        'cqed_rhf_transformation_vectors' : C,
+        'psi4_wfn' : wfn, 
+        'cqed_cis excitation energies' : ECIS, 
+        'cqed_cis eigenvectors' : CCIS,
+    }
+
+    return cqed_cis_dict
+
+
+def get_nto(cis_vec, mo_occ, mo_virt):
+
+    """ compute the natural transition orbitals from
+        the cqed_cis wavefunction for the LP and UP states
+        
+        References
+        ----------
+        
+            Original reference: Martin, R. L., JCP, 118, 4775-4777
+        
+            See also: Equations (1) - (7) of https://comp.chem.umn.edu/openmolcas/200303_NTOv12.pdf
+
+            Python code from pyscf/tdscf module, see line 216 of https://github.com/pyscf/pyscf/blob/master/pyscf/tdscf/rhf.py
+        
+    """
+    # we will get T amplitudes for LP and UP states
+    # and note that there are essentially 2 sets of T amplitudes for each i->a excitation:
+    # i0->a0 and i0->a1
+    # we will get both
+    ndocc = len(mo_occ[0,:])
+    nvirt = len(mo_virt[0,:])
+    t_lp = np.zeros((ndocc, nvirt, 2))
+    t_up = np.zeros((ndocc, nvirt, 2))
+
+    for i in range(0, ndocc):
+        for a in range(0, nvirt):
+            iaz = 2*(i*nvirt + a) + 0 + 2
+            iao = 2*(i*nvirt + a) + 1 + 2
+            # i0->a0
+            t_lp[i,a,0] = cis_vec[iaz,1] 
+            t_up[i,a,0] = cis_vec[iaz,2]
+            # i0->a1 
+            t_lp[i,a,1] = cis_vec[iao,1] 
+            t_up[i,a,1] = cis_vec[iao,2]
+
+
+    # perform svd
+    # LP i0->a0 amplitudes
+    u_lp_0, w_lp_0, vT_lp_0 = np.linalg.svd(t_lp[:,:,0])
+    # UP i0->a0 amplitudes
+    u_up_0, w_up_0, vT_up_0 = np.linalg.svd(t_up[:,:,0])
+    # LP i0->a1 amplitudes
+    u_lp_1, w_lp_1, vT_lp_1 = np.linalg.svd(t_lp[:,:,1])
+    # UP i0->a1 amplitudes
+    u_up_1, w_up_1, vT_up_1 = np.linalg.svd(t_up[:,:,1])
+
+    # get v vectors
+    v_lp_0 = vT_lp_0.conj().T
+    v_lp_1 = vT_lp_1.conj().T
+    v_up_0 = vT_up_0.conj().T
+    v_up_1 = vT_up_1.conj().T
+    
+    # reorder these arrays
+    # lp_0
+    idx = np.argmax(abs(u_lp_0.real), axis=0)
+    u_lp_0[:,u_lp_0[idx,np.arange(ndocc)].real<0] *= -1
+    idx = np.argmax(abs(v_lp_0.real), axis=0)
+    v_lp_0[:,v_lp_0[idx,np.arange(nvirt)].real<0] *= -1
+
+    # lp_1
+    idx = np.argmax(abs(u_lp_1.real), axis=0)
+    u_lp_1[:,u_lp_1[idx,np.arange(ndocc)].real<0] *= -1
+    idx = np.argmax(abs(v_lp_1.real), axis=0)
+    v_lp_1[:,v_lp_1[idx,np.arange(nvirt)].real<0] *= -1
+
+    # up_0
+    idx = np.argmax(abs(u_up_0.real), axis=0)
+    u_up_0[:,u_up_0[idx,np.arange(ndocc)].real<0] *= -1
+    idx = np.argmax(abs(v_up_0.real), axis=0)
+    v_up_0[:,v_up_0[idx,np.arange(nvirt)].real<0] *= -1
+
+    # up_1
+    idx = np.argmax(abs(u_up_1.real), axis=0)
+    u_up_1[:,u_up_1[idx,np.arange(ndocc)].real<0] *= -1
+    idx = np.argmax(abs(v_up_1.real), axis=0)
+    v_up_1[:,v_up_1[idx,np.arange(nvirt)].real<0] *= -1
+
+    # assemble full NTOs for each case
+    # lp0
+    occ_nto = np.dot(mo_occ, u_lp_0)
+    vir_nto = np.dot(mo_virt, v_lp_0)
+    nto_lp_0 = np.hstack((occ_nto, vir_nto))
+    # lp1
+    occ_nto = np.dot(mo_occ, u_lp_1)
+    vir_nto = np.dot(mo_virt, v_lp_1)
+    nto_lp_1 = np.hstack((occ_nto, vir_nto))
+    # up0
+    occ_nto = np.dot(mo_occ, u_up_0)
+    vir_nto = np.dot(mo_virt, v_up_0)
+    nto_up_0 = np.hstack((occ_nto, vir_nto))
+    # up1
+    occ_nto = np.dot(mo_occ, u_up_1)
+    vir_nto = np.dot(mo_virt, v_up_1)
+    nto_up_1 = np.hstack((occ_nto, vir_nto))
+
+    # square singular values to get weights for each set of transitions
+    w_lp_0 *= w_lp_0
+    w_lp_1 *= w_lp_1
+    w_up_0 *= w_up_0
+    w_up_1 *= w_up_1
+
+    # store all arrays in dictionary
+    nto_dict = {
+        'NTO LP0' : nto_lp_0,
+        'NTO LP1' : nto_lp_1,
+        'NTO UP0' : nto_up_0,
+        'NTO UP1' : nto_up_1,
+        'weights LP0' : w_lp_0,
+        'weights LP1' : w_lp_1,
+        'weights UP0' : w_up_0,
+        'weights UP1' : w_up_1
+    }
+
+    return nto_dict
