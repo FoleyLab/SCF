@@ -16,7 +16,7 @@ import numpy as np
 import scipy.linalg as la
 import time
 
-def cqed_rhf(lambda_vector, molecule_string, self_consistent_dipole=True):
+def cqed_rhf(lambda_vector, molecule_string):
     """ Computes the QED-RHF energy and density 
 
         Arguments
@@ -181,8 +181,8 @@ def cqed_rhf(lambda_vector, molecule_string, self_consistent_dipole=True):
 
     # Set convergence criteria
     maxiter = 500
-    E_conv = 1.0e-8
-    D_conv = 1.0e-8
+    E_conv = 1.0e-7
+    D_conv = 1.0e-5
     t = time.time()
     for SCF_ITER in range(1, maxiter + 1):
 
@@ -265,5 +265,20 @@ def cqed_rhf(lambda_vector, molecule_string, self_consistent_dipole=True):
 
     print("QED-RHF   energy: %.8f hartree" % SCF_E)
     print("Psi4  SCF energy: %.8f hartree" % psi4_rhf_energy)
+    
+    cqed_rhf_dict = {
+        'rhf_energy' : psi4_rhf_energy,
+        'cqed_rhf_energy' : SCF_E,
+        'cqed_rhf_transformation_vectors' : C,
+        'cqed_rhf_density_matrix' : D,
+        'cqed_rhf_orbital_energies' : e, 
+        'psi4_wfn' : wfn, 
+        'cqed_rhf_dipole_moment' : np.array([mu_exp_x, mu_exp_y, mu_exp_z]),
+        'nuclear_dipole_moment' : np.array([mu_nuc_x, mu_nuc_y, mu_nuc_z]),
+        'Pauli-Fierz Dipole Matrix' : d_PF,
+        'Pauli-Fierz Quadrupole Matrix' : Q_PF,
+        'Nuclear Dipolar Energy' : d_c,
+        'Nuclear Repulsion Energy' : Enuc 
+    }
 
-    return psi4_rhf_energy, SCF_E, C
+    return cqed_rhf_dict
