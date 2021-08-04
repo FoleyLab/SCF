@@ -181,8 +181,8 @@ def cqed_rhf(lambda_vector, molecule_string):
 
     # Set convergence criteria
     maxiter = 500
-    E_conv = 1.0e-6
-    D_conv = 1.0e-4
+    E_conv = 1.0e-7
+    D_conv = 1.0e-5
     t = time.time()
     for SCF_ITER in range(1, maxiter + 1):
 
@@ -265,8 +265,7 @@ def cqed_rhf(lambda_vector, molecule_string):
 
     print("QED-RHF   energy: %.8f hartree" % SCF_E)
     print("Psi4  SCF energy: %.8f hartree" % psi4_rhf_energy)
-
-    # create dictionary to return various data
+    
     cqed_rhf_dict = {
         'rhf_energy' : psi4_rhf_energy,
         'cqed_rhf_energy' : SCF_E,
