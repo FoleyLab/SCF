@@ -167,7 +167,7 @@ def cqed_rhf(lambda_vector, molecule_string):
     D = np.einsum("pi,qi->pq", Cocc, Cocc)  # [Szabo:1996] Eqn. 3.145, pp. 139
 
     print("\nStart SCF iterations:\n")
-    t = time.time()
+    #t = time.time()
     E = 0.0
     Enuc = mol.nuclear_repulsion_energy()
     Eold = 0.0
@@ -184,6 +184,7 @@ def cqed_rhf(lambda_vector, molecule_string):
     E_conv = 1.0e-7
     D_conv = 1.0e-5
     t = time.time()
+
     for SCF_ITER in range(1, maxiter + 1):
 
         # Build fock matrix: [Szabo:1996] Eqn. 3.154, pp. 141
@@ -205,6 +206,20 @@ def cqed_rhf(lambda_vector, molecule_string):
 
         # SCF energy and update: [Szabo:1996], Eqn. 3.184, pp. 150
         SCF_E = np.einsum("pq,pq->", F + H, D) + Enuc + d_c
+
+        ######## Testing 1 & 2 e- contributions
+        one_e_cont = 2 * H
+        two_e_cont = J * 2 - K + 2 * M - N
+        SCF_E_One = np.einsum("pq,pq->", one_e_cont, D)
+        SCF_E_Two = np.einsum("pq,pq->", two_e_cont, D)
+
+
+
+        ######## End Testing
+
+
+        
+        
 
         print(
             "SCF Iteration %3d: Energy = %4.16f   dE = % 1.5E   dRMS = %1.5E"
@@ -278,7 +293,11 @@ def cqed_rhf(lambda_vector, molecule_string):
         'Pauli-Fierz Dipole Matrix' : d_PF,
         'Pauli-Fierz Quadrupole Matrix' : Q_PF,
         'Nuclear Dipolar Energy' : d_c,
-        'Nuclear Repulsion Energy' : Enuc 
+        'Nuclear Repulsion Energy' : Enuc, 
+        'Kinetic Energy' : T,
+        'Potential Energy' : V,
+        'One Electron Energy Contribution' : SCF_E_One,
+        'Two Electron Energy Contribution' : SCF_E_Two
     }
 
     return cqed_rhf_dict
