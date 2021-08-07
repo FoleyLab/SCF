@@ -17,7 +17,7 @@ import scipy.linalg as la
 import time
 from helper_cqed_rhf import *
 
-def cs_cqed_cis(lam, molecule_string, psi4_options_dict, omega_val):
+def cs_cqed_cis(lam, molecule_string, psi4_options_dict, omega_val, complex_coupling=False):
     """ Computes the QED-CIS energy and wavefunction
 
         Arguments
@@ -47,6 +47,16 @@ def cs_cqed_cis(lam, molecule_string, psi4_options_dict, omega_val):
         >>> psi4_cis_energy, cqed_cis_energy, cqed_cis_vec = cqed_cis([0., 0., 1e-2], '''\nMg\nH 1 1.7\nsymmetry c1\n1 1\n''', 0.02)
         
     """
+    # if complex_coupling selected, use full complex omega for coupling
+    if complex_coupling==True:
+        omega_coupling = omega_val
+    else:
+        # default to just using the real part
+        omega_coupling = np.real(omega_val)
+    
+    print("Frequency   is ", omega_val)
+    print("Om Coupling is ", omega_coupling)
+    
     # define geometry using the molecule_string
     mol = psi4.geometry(molecule_string)
     # define options for the calculation
@@ -208,7 +218,7 @@ def cs_cqed_cis(lam, molecule_string, psi4_options_dict, omega_val):
 
 
     # create Hamiltonian for elements H[ias, jbt]
-    HCIS = np.zeros((ndocc * nvirt * 2 + 2, ndocc * nvirt * 2 + 2))
+    HCIS = np.zeros((ndocc * nvirt * 2 + 2, ndocc * nvirt * 2 + 2), dtype=complex)
 
     HCIS[0,0] = d_c
     HCIS[1,1] = np.sqrt(1) * omega_val + d_c
@@ -224,10 +234,10 @@ def cs_cqed_cis(lam, molecule_string, psi4_options_dict, omega_val):
                 A = a + ndocc
                 for t in range(0,2):
                     iat = 2*(i*nvirt + a) + t + 2
-                    HCIS[s,iat] = -np.sqrt(omega_val/2) *  l_dot_mu_el[i,A] * (s==t+1)
-                    HCIS[s,iat] -= np.sqrt(omega_val/2) *  l_dot_mu_el[i,A] * (s+1==t)
-                    HCIS[iat,s] = -np.sqrt(omega_val/2) *  l_dot_mu_el[i,A] * (s==t+1)
-                    HCIS[iat,s] -= np.sqrt(omega_val/2) *  l_dot_mu_el[i,A] * (s+1==t)
+                    HCIS[s,iat] = -np.sqrt(omega_coupling/2) *  l_dot_mu_el[i,A] * (s==t+1)
+                    HCIS[s,iat] -= np.sqrt(omega_coupling/2) *  l_dot_mu_el[i,A] * (s+1==t)
+                    HCIS[iat,s] = -np.sqrt(omega_coupling/2) *  l_dot_mu_el[i,A] * (s==t+1)
+                    HCIS[iat,s] -= np.sqrt(omega_coupling/2) *  l_dot_mu_el[i,A] * (s+1==t)
     
 
     # elements corresponding to <s|<\Phi_i^a| H | \Phi_j^b|t>
@@ -258,12 +268,12 @@ def cs_cqed_cis(lam, molecule_string, psi4_options_dict, omega_val):
                             HCIS[ias,jbt] += (dc_offset * l_dot_mu_el[A,B] - 0.5 * Q_PF[A,B]) * (s==t) * (i==j)
                             HCIS[ias,jbt] -= (dc_offset * l_dot_mu_el[i,j] - 0.5 * Q_PF[i,j]) * (s==t) * (a==b)
                             # bilinear coupling
-                            HCIS[ias,jbt] += np.sqrt(omega_val/2) * l_dot_mu_exp * (i==j) * (a==b) * (s==t+1)
-                            HCIS[ias,jbt] += np.sqrt(omega_val/2) * l_dot_mu_exp * (i==j) * (a==b) * (s+1==t)
-                            HCIS[ias,jbt] += np.sqrt(omega_val/2) * l_dot_mu_el[i,j] * (a==b) * (s==t+1)
-                            HCIS[ias,jbt] += np.sqrt(omega_val/2) * l_dot_mu_el[i,j] * (a==b) * (s+1==t)
-                            HCIS[ias,jbt] -= np.sqrt(omega_val/2) * l_dot_mu_el[A,B] * (i==j) * (s==t+1)
-                            HCIS[ias,jbt] -= np.sqrt(omega_val/2) * l_dot_mu_el[A,B] * (i==j) * (s+1==t)
+                            HCIS[ias,jbt] += np.sqrt(omega_coupling/2) * l_dot_mu_exp * (i==j) * (a==b) * (s==t+1)
+                            HCIS[ias,jbt] += np.sqrt(omega_coupling/2) * l_dot_mu_exp * (i==j) * (a==b) * (s+1==t)
+                            HCIS[ias,jbt] += np.sqrt(omega_coupling/2) * l_dot_mu_el[i,j] * (a==b) * (s==t+1)
+                            HCIS[ias,jbt] += np.sqrt(omega_coupling/2) * l_dot_mu_el[i,j] * (a==b) * (s+1==t)
+                            HCIS[ias,jbt] -= np.sqrt(omega_coupling/2) * l_dot_mu_el[A,B] * (i==j) * (s==t+1)
+                            HCIS[ias,jbt] -= np.sqrt(omega_coupling/2) * l_dot_mu_el[A,B] * (i==j) * (s+1==t)
 
     #print("now formed")                        
     #print(HCIS)
@@ -278,6 +288,9 @@ def cs_cqed_cis(lam, molecule_string, psi4_options_dict, omega_val):
     # what we want to do with L and R vecs!
     else:
         ECIS, CCIS = np.linalg.eig(HCIS)
+        idx = ECIS.argsort()
+        ECIS = ECIS[idx]
+        CCIS = CCIS[:,idx]
 
 
 
