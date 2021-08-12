@@ -212,7 +212,8 @@ def cqed_rhf(lambda_vector, molecule_string):
         two_e_cont = J * 2 - K + 2 * M - N
         SCF_E_One = np.einsum("pq,pq->", one_e_cont, D)
         SCF_E_Two = np.einsum("pq,pq->", two_e_cont, D)
-
+        SCF_E_DPF = np.einsum("pq,pq->", d_PF, D)
+        SCF_E_QPF = np.einsum("pq,pq->", Q_PF, D)
 
 
         ######## End Testing
@@ -265,6 +266,7 @@ def cqed_rhf(lambda_vector, molecule_string):
         d_PF += (l_dot_mu_nuc - l_dot_mu_exp) * lambda_vector[2] * mu_ao_z
 
         # update Core Hamiltonian
+        
         H = H_0 + Q_PF + d_PF
 
         # update dipole energetic contribution
@@ -297,7 +299,9 @@ def cqed_rhf(lambda_vector, molecule_string):
         'Kinetic Energy' : T,
         'Potential Energy' : V,
         'One Electron Energy Contribution' : SCF_E_One,
-        'Two Electron Energy Contribution' : SCF_E_Two
+        'Two Electron Energy Contribution' : SCF_E_Two,
+        '1 e- Dipole Energy Contribution' : SCF_E_DPF,
+        'Quadrupole Energy Contribution' : SCF_E_QPF
     }
 
     return cqed_rhf_dict

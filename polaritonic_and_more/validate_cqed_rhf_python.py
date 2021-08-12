@@ -102,7 +102,14 @@ rhf_energy_array = np.zeros_like(r_array)
 cqed_one_array_med = np.zeros_like(r_array)
 cqed_two_array_med = np.zeros_like(r_array)
 cqed_dipole_energy_array_med = np.zeros_like(r_array)
+cqed_1e_dipole_energy_array_med = np.zeros_like(r_array)
+cqed_quadrupole_energy_array_med = np.zeros_like(r_array)
 
+cqed_one_array_big = np.zeros_like(r_array)
+cqed_two_array_big = np.zeros_like(r_array)
+cqed_dipole_energy_array_big = np.zeros_like(r_array)
+cqed_1e_dipole_energy_array_big = np.zeros_like(r_array)
+cqed_quadrupole_energy_array_big = np.zeros_like(r_array)
 
 # loop over the different bond-lengths, create different instances
 # of HF molecule
@@ -118,6 +125,14 @@ for r in r_array:
     cqed_one_array_med[ctr] = med_dict['One Electron Energy Contribution']
     cqed_two_array_med[ctr] = med_dict['Two Electron Energy Contribution']
     cqed_dipole_energy_array_med[ctr] = med_dict['Nuclear Dipolar Energy']
+    cqed_1e_dipole_energy_array_med[ctr] = med_dict['1 e- Dipole Energy Contribution']
+    cqed_quadrupole_energy_array_med[ctr] = med_dict['Quadrupole Energy Contribution']
+
+    cqed_one_array_big[ctr] = big_dict['One Electron Energy Contribution']
+    cqed_two_array_big[ctr] = big_dict['Two Electron Energy Contribution']
+    cqed_dipole_energy_array_big[ctr] = big_dict['Nuclear Dipolar Energy']
+    cqed_1e_dipole_energy_array_big[ctr] = big_dict['1 e- Dipole Energy Contribution']
+    cqed_quadrupole_energy_array_big[ctr] = big_dict['Quadrupole Energy Contribution']
     ctr+=1
 
 from matplotlib import pyplot as plt
@@ -129,5 +144,9 @@ plt.ylabel("Energy (Hartrees)")
 plt.legend()
 plt.show()
 
-print(cqed_one_array_med,'\n',cqed_two_array_med,'\n', cqed_dipole_energy_array_med)
+print(cqed_one_array_med,'\n',cqed_two_array_med,'\n', cqed_dipole_energy_array_med, '\n', cqed_1e_dipole_energy_array_med, '\n', cqed_quadrupole_energy_array_med)
+print('med energy array', cqed_energy_array_l_med)
+print('Summed med energies: ', (cqed_one_array_med[-1] +  cqed_two_array_med[-1] + cqed_dipole_energy_array_med[-1] + cqed_1e_dipole_energy_array_med + cqed_quadrupole_energy_array_med))
+print('big energy array', cqed_energy_array_l_big)
+print('Summed big energies: ', (cqed_one_array_big[-1] +  cqed_two_array_big[-1] + cqed_dipole_energy_array_big[-1] + cqed_1e_dipole_energy_array_big + cqed_quadrupole_energy_array_big))
 
