@@ -208,12 +208,17 @@ def cqed_rhf(lambda_vector, molecule_string):
         SCF_E = np.einsum("pq,pq->", F + H, D) + Enuc + d_c
 
         ######## Testing 1 & 2 e- contributions
-        one_e_cont = 2 * H
-        two_e_cont = J * 2 - K + 2 * M - N
-        SCF_E_One = np.einsum("pq,pq->", one_e_cont, D)
-        SCF_E_Two = np.einsum("pq,pq->", two_e_cont, D)
-        SCF_E_DPF = np.einsum("pq,pq->", d_PF, D)
-        SCF_E_QPF = np.einsum("pq,pq->", Q_PF, D)
+        ### JJF Comment: At this point I don't know if we need to track these quantities for each 
+        ### SCF iteration, so I'm commenting this block out and only having them calculated after the SCF convergest.
+        
+        ### JJF Second comment: H contains d_PF and Q_PF, so I wonder if your error is arising
+        ### because you are adding one_e_cont + two_e_cont + SCF_E_DPF + SCF_E_QPF, and therefore having an extra factor of QPF and DPF in their?
+        #one_e_cont = 2 * H
+        #two_e_cont = J * 2 - K + 2 * M - N
+        #SCF_E_One = np.einsum("pq,pq->", one_e_cont, D)
+        #SCF_E_Two = np.einsum("pq,pq->", two_e_cont, D)
+        #SCF_E_DPF = np.einsum("pq,pq->", d_PF, D)
+        #SCF_E_QPF = np.einsum("pq,pq->", Q_PF, D)
 
 
         ######## End Testing
@@ -283,6 +288,17 @@ def cqed_rhf(lambda_vector, molecule_string):
     print("QED-RHF   energy: %.8f hartree" % SCF_E)
     print("Psi4  SCF energy: %.8f hartree" % psi4_rhf_energy)
     
+    rhf_one_e_cont = 2 * H_0 # note using H_0 which is just T + V, and does not include Q_PF and d_PF
+    rhf_two_e_cont = J * 2 - K # note using just J and K that would contribute to ordinary RHF 2-electron energy
+    pf_two_e_cont = 2 * M - N
+
+    SCF_E_One = np.einsum("pq,pq->", rhf_one_e_cont, D)
+    SCF_E_Two = np.einsum("pq,pq->", rhf_two_e_cont, D)
+    CQED_SCF_E_DPF = np.einsum("pq,pq->", 2 * d_PF, D)
+    CQED_SCF_E_QPF = np.einsum("pq,pq->", 2 * Q_PF, D)
+    CQED_SCF_E_TWO = np.einsum("pq,pq->", pf_two_e_cont, D)
+
+    
     cqed_rhf_dict = {
         'rhf_energy' : psi4_rhf_energy,
         'cqed_rhf_energy' : SCF_E,
@@ -298,10 +314,11 @@ def cqed_rhf(lambda_vector, molecule_string):
         'Nuclear Repulsion Energy' : Enuc, 
         'Kinetic Energy' : T,
         'Potential Energy' : V,
-        'One Electron Energy Contribution' : SCF_E_One,
-        'Two Electron Energy Contribution' : SCF_E_Two,
-        '1 e- Dipole Energy Contribution' : SCF_E_DPF,
-        'Quadrupole Energy Contribution' : SCF_E_QPF
+        'RHF One Electron Energy Contribution' : SCF_E_One,
+        'RHF Two Electron Energy Contribution' : SCF_E_Two,
+        'CQED-RHF Two Electron Energy Contribution' : CQED_SCF_E_TWO,
+        '1 e- Dipole Energy Contribution' : CQED_SCF_E_DPF,
+        'Quadrupole Energy Contribution' : CQED_SCF_E_QPF
     }
 
     return cqed_rhf_dict
