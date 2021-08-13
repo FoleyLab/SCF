@@ -297,7 +297,8 @@ def cqed_rhf(lambda_vector, molecule_string):
     CQED_SCF_E_DPF = np.einsum("pq,pq->", 2 * d_PF, D)
     CQED_SCF_E_QPF = np.einsum("pq,pq->", 2 * Q_PF, D)
     CQED_SCF_E_TWO = np.einsum("pq,pq->", pf_two_e_cont, D)
-
+    
+    assert np.isclose(SCF_E_One + SCF_E_Two + CQED_SCF_E_DPF + CQED_E_QPF + CQED_SCF_E_TWO, SCF_E)
     
     cqed_rhf_dict = {
         'rhf_energy' : psi4_rhf_energy,
