@@ -210,7 +210,8 @@ def cqed_rhf(lambda_vector, molecule_string):
         ######## Testing 1 & 2 e- contributions
         one_e_cont = 2 * H
         two_e_cont = J * 2 - K + 2 * M - N
-        SCF_E_One = np.einsum("pq,pq->", one_e_cont, D)
+        #SCF_E_One = np.einsum("pq,pq->", one_e_cont, D)
+        SCF_E_One = E_1el_crhf
         SCF_E_Two = np.einsum("pq,pq->", two_e_cont, D)
         SCF_E_DPF = np.einsum("pq,pq->", d_PF, D)
         SCF_E_QPF = np.einsum("pq,pq->", Q_PF, D)
