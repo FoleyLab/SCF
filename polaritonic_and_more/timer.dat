@@ -1,0 +1,204 @@
+
+Host: Jonathans-MacBook-Pro-2.local
+
+Timers On : Wed Aug  4 15:37:20 2021
+Timers Off: Wed Aug  4 15:37:28 2021
+
+Wall Time:        8.27 seconds
+
+                                                       Time (seconds)
+Module                                       User      System        Wall        Calls
+Total PK formation time             :      0.883u      0.050s      0.542w      3 calls
+Libint2ERI::Libint2ERI              :      0.400u      0.017s      0.253w     11 calls
+HF: Form core H                     :      0.000u      0.000s      0.006w      3 calls
+HF: Form S/X                        :      0.000u      0.000s      0.001w      3 calls
+HF: Guess                           :      0.333u      0.017s      0.217w      3 calls
+SAD Guess                           :      0.333u      0.017s      0.212w      3 calls
+HF: Form G                          :      0.000u      0.000s      0.002w     21 calls
+JK: D                               :      0.000u      0.000s      0.000w     24 calls
+JK: USO2AO                          :      0.000u      0.000s      0.000w     24 calls
+JK: JK                              :      0.000u      0.000s      0.013w     24 calls
+PK computes JK                      :      0.000u      0.000s      0.013w     24 calls
+JK: AO2USO                          :      0.000u      0.000s      0.000w     24 calls
+HF: Form F                          :      0.000u      0.000s      0.000w     21 calls
+HF: Form D                          :      0.000u      0.000s      0.000w     21 calls
+HF: DIIS                            :      0.033u      0.000s      0.009w     18 calls
+DIISManager::add_entry              :      0.000u      0.000s      0.002w     18 calls
+DIISManager::extrapolate            :      0.000u      0.000s      0.001w     18 calls
+bMatrix setup                       :      0.000u      0.000s      0.000w     18 calls
+bMatrix pseudoinverse               :      0.000u      0.000s      0.000w     18 calls
+New vector                          :      0.000u      0.000s      0.000w     18 calls
+HF: Form C                          :      0.000u      0.000s      0.001w     18 calls
+
+--------------------------------------------------------------------------------------
+Total PK formation time             :      0.883u      0.050s      0.542w      3 calls
+| Libint2ERI::Libint2ERI            :      0.217u      0.017s      0.146w      6 calls
+HF: Form core H                     :      0.000u      0.000s      0.006w      3 calls
+HF: Form S/X                        :      0.000u      0.000s      0.001w      3 calls
+HF: Guess                           :      0.333u      0.017s      0.217w      3 calls
+| SAD Guess                         :      0.333u      0.017s      0.212w      3 calls
+HF: Form G                          :      0.000u      0.000s      0.002w     21 calls
+| JK: D                             :      0.000u      0.000s      0.000w     21 calls
+| JK: USO2AO                        :      0.000u      0.000s      0.000w     21 calls
+| JK: JK                            :      0.000u      0.000s      0.002w     21 calls
+| | PK computes JK                  :      0.000u      0.000s      0.002w     21 calls
+| JK: AO2USO                        :      0.000u      0.000s      0.000w     21 calls
+HF: Form F                          :      0.000u      0.000s      0.000w     21 calls
+HF: Form D                          :      0.000u      0.000s      0.000w     21 calls
+HF: DIIS                            :      0.033u      0.000s      0.009w     18 calls
+| DIISManager::add_entry            :      0.000u      0.000s      0.002w     18 calls
+| DIISManager::extrapolate          :      0.000u      0.000s      0.001w     18 calls
+| | bMatrix setup                   :      0.000u      0.000s      0.000w     18 calls
+| | bMatrix pseudoinverse           :      0.000u      0.000s      0.000w     18 calls
+| | New vector                      :      0.000u      0.000s      0.000w     18 calls
+HF: Form C                          :      0.000u      0.000s      0.001w     18 calls
+JK: D                               :      0.000u      0.000s      0.000w      3 calls
+JK: USO2AO                          :      0.000u      0.000s      0.000w      3 calls
+JK: JK                              :      0.000u      0.000s      0.011w      3 calls
+| PK computes JK                    :      0.000u      0.000s      0.011w      3 calls
+JK: AO2USO                          :      0.000u      0.000s      0.000w      3 calls
+Libint2ERI::Libint2ERI              :      0.183u      0.000s      0.107w      5 calls
+
+**************************************************************************************
+
+Host: Jonathans-MBP-2
+
+Timers On : Fri Aug  6 07:50:43 2021
+Timers Off: Fri Aug  6 08:05:40 2021
+
+Wall Time:      896.89 seconds
+
+                                                       Time (seconds)
+Module                                       User      System        Wall        Calls
+Total PK formation time             :     10.333u      0.133s      6.212w    391 calls
+Libint2ERI::Libint2ERI              :      2.400u      0.033s      1.505w   1427 calls
+HF: Form core H                     :      0.217u      0.400s      0.400w    391 calls
+HF: Form S/X                        :      0.067u      0.000s      0.044w    391 calls
+HF: Guess                           :     15.983u      1.250s     10.571w    391 calls
+SAD Guess                           :     14.950u      1.250s      9.941w    388 calls
+HF: Form G                          :      0.200u      0.033s      0.107w   3050 calls
+JK: D                               :      0.017u      0.000s      0.011w   3052 calls
+JK: USO2AO                          :      0.017u      0.017s      0.007w   3052 calls
+JK: JK                              :      0.117u      0.000s      0.050w   3052 calls
+PK computes JK                      :      0.117u      0.000s      0.044w   3052 calls
+JK: AO2USO                          :      0.000u      0.000s      0.003w   3052 calls
+HF: Form F                          :      0.033u      0.000s      0.014w   3050 calls
+HF: Form D                          :      0.050u      0.000s      0.010w   3050 calls
+HF: DIIS                            :      1.717u      0.217s      1.333w   2662 calls
+DIISManager::add_entry              :      0.067u      0.150s      0.194w   2659 calls
+DIISManager::extrapolate            :      0.183u      0.067s      0.125w   2659 calls
+bMatrix setup                       :      0.017u      0.033s      0.039w   2659 calls
+bMatrix pseudoinverse               :      0.083u      0.000s      0.039w   2659 calls
+New vector                          :      0.067u      0.017s      0.030w   2659 calls
+HF: Form C                          :      0.200u      0.017s      0.070w   2662 calls
+Grad: V T Perturb                   :      0.033u      0.017s      0.035w      4 calls
+Grad: S                             :      0.000u      0.000s      0.000w      4 calls
+Grad: JK                            :      0.033u      0.000s      0.019w      4 calls
+Grad: XC                            :      0.000u      0.000s      0.000w      4 calls
+
+--------------------------------------------------------------------------------------
+Total PK formation time             :     10.333u      0.133s      6.212w    391 calls
+| Libint2ERI::Libint2ERI            :      2.150u      0.033s      1.328w    782 calls
+HF: Form core H                     :      0.217u      0.400s      0.400w    391 calls
+HF: Form S/X                        :      0.067u      0.000s      0.044w    391 calls
+HF: Guess                           :     15.983u      1.250s     10.571w    391 calls
+| SAD Guess                         :     14.950u      1.250s      9.941w    388 calls
+HF: Form G                          :      0.200u      0.033s      0.107w   3050 calls
+| JK: D                             :      0.017u      0.000s      0.011w   3050 calls
+| JK: USO2AO                        :      0.017u      0.017s      0.007w   3050 calls
+| JK: JK                            :      0.117u      0.000s      0.050w   3050 calls
+| | PK computes JK                  :      0.117u      0.000s      0.043w   3050 calls
+| JK: AO2USO                        :      0.000u      0.000s      0.003w   3050 calls
+HF: Form F                          :      0.033u      0.000s      0.014w   3050 calls
+HF: Form D                          :      0.050u      0.000s      0.010w   3050 calls
+HF: DIIS                            :      1.717u      0.217s      1.333w   2662 calls
+| DIISManager::add_entry            :      0.067u      0.150s      0.194w   2659 calls
+| DIISManager::extrapolate          :      0.183u      0.067s      0.125w   2659 calls
+| | bMatrix setup                   :      0.017u      0.033s      0.039w   2659 calls
+| | bMatrix pseudoinverse           :      0.083u      0.000s      0.039w   2659 calls
+| | New vector                      :      0.067u      0.017s      0.030w   2659 calls
+HF: Form C                          :      0.200u      0.017s      0.070w   2662 calls
+Grad: V T Perturb                   :      0.033u      0.017s      0.035w      4 calls
+Grad: S                             :      0.000u      0.000s      0.000w      4 calls
+Grad: JK                            :      0.033u      0.000s      0.019w      4 calls
+| Libint2ERI::Libint2ERI            :      0.000u      0.000s      0.001w      4 calls
+Grad: XC                            :      0.000u      0.000s      0.000w      4 calls
+JK: D                               :      0.000u      0.000s      0.000w      2 calls
+JK: USO2AO                          :      0.000u      0.000s      0.000w      2 calls
+JK: JK                              :      0.000u      0.000s      0.000w      2 calls
+| PK computes JK                    :      0.000u      0.000s      0.000w      2 calls
+JK: AO2USO                          :      0.000u      0.000s      0.000w      2 calls
+Libint2ERI::Libint2ERI              :      0.250u      0.000s      0.175w    641 calls
+
+**************************************************************************************
+
+Host: Jonathans-MBP-2
+
+Timers On : Fri Aug  6 08:05:46 2021
+Timers Off: Fri Aug  6 08:11:55 2021
+
+Wall Time:      368.97 seconds
+
+                                                       Time (seconds)
+Module                                       User      System        Wall        Calls
+Total PK formation time             :      0.500u      0.017s      0.298w     62 calls
+Libint2ERI::Libint2ERI              :      0.083u      0.017s      0.064w    226 calls
+HF: Form core H                     :      0.033u      0.050s      0.062w     62 calls
+HF: Form S/X                        :      0.017u      0.000s      0.008w     62 calls
+HF: Guess                           :      2.250u      0.183s      1.502w     62 calls
+SAD Guess                           :      2.067u      0.183s      1.407w     59 calls
+HF: Form G                          :      0.017u      0.000s      0.015w    477 calls
+JK: D                               :      0.000u      0.000s      0.002w    481 calls
+JK: USO2AO                          :      0.000u      0.000s      0.001w    481 calls
+JK: JK                              :      0.017u      0.000s      0.007w    481 calls
+PK computes JK                      :      0.000u      0.000s      0.006w    481 calls
+JK: AO2USO                          :      0.000u      0.000s      0.000w    481 calls
+HF: Form F                          :      0.000u      0.033s      0.002w    477 calls
+HF: Form D                          :      0.000u      0.000s      0.002w    477 calls
+HF: DIIS                            :      0.400u      0.017s      0.235w    418 calls
+DIISManager::add_entry              :      0.050u      0.017s      0.051w    415 calls
+DIISManager::extrapolate            :      0.033u      0.000s      0.020w    415 calls
+bMatrix setup                       :      0.000u      0.000s      0.006w    415 calls
+bMatrix pseudoinverse               :      0.017u      0.000s      0.006w    415 calls
+New vector                          :      0.017u      0.000s      0.005w    415 calls
+HF: Form C                          :      0.017u      0.000s      0.011w    418 calls
+Grad: V T Perturb                   :      0.067u      0.033s      0.035w      4 calls
+Grad: S                             :      0.000u      0.000s      0.000w      4 calls
+Grad: JK                            :      0.000u      0.000s      0.018w      4 calls
+Grad: XC                            :      0.000u      0.000s      0.000w      4 calls
+
+--------------------------------------------------------------------------------------
+Total PK formation time             :      0.500u      0.017s      0.298w     62 calls
+| Libint2ERI::Libint2ERI            :      0.050u      0.017s      0.036w    124 calls
+HF: Form core H                     :      0.033u      0.050s      0.062w     62 calls
+HF: Form S/X                        :      0.017u      0.000s      0.008w     62 calls
+HF: Guess                           :      2.250u      0.183s      1.502w     62 calls
+| SAD Guess                         :      2.067u      0.183s      1.407w     59 calls
+HF: Form G                          :      0.017u      0.000s      0.015w    477 calls
+| JK: D                             :      0.000u      0.000s      0.002w    477 calls
+| JK: USO2AO                        :      0.000u      0.000s      0.001w    477 calls
+| JK: JK                            :      0.017u      0.000s      0.006w    477 calls
+| | PK computes JK                  :      0.000u      0.000s      0.005w    477 calls
+| JK: AO2USO                        :      0.000u      0.000s      0.000w    477 calls
+HF: Form F                          :      0.000u      0.033s      0.002w    477 calls
+HF: Form D                          :      0.000u      0.000s      0.002w    477 calls
+HF: DIIS                            :      0.400u      0.017s      0.235w    418 calls
+| DIISManager::add_entry            :      0.050u      0.017s      0.051w    415 calls
+| DIISManager::extrapolate          :      0.033u      0.000s      0.020w    415 calls
+| | bMatrix setup                   :      0.000u      0.000s      0.006w    415 calls
+| | bMatrix pseudoinverse           :      0.017u      0.000s      0.006w    415 calls
+| | New vector                      :      0.017u      0.000s      0.005w    415 calls
+HF: Form C                          :      0.017u      0.000s      0.011w    418 calls
+Grad: V T Perturb                   :      0.067u      0.033s      0.035w      4 calls
+Grad: S                             :      0.000u      0.000s      0.000w      4 calls
+Grad: JK                            :      0.000u      0.000s      0.018w      4 calls
+| Libint2ERI::Libint2ERI            :      0.000u      0.000s      0.001w      4 calls
+Grad: XC                            :      0.000u      0.000s      0.000w      4 calls
+JK: D                               :      0.000u      0.000s      0.000w      4 calls
+JK: USO2AO                          :      0.000u      0.000s      0.000w      4 calls
+JK: JK                              :      0.000u      0.000s      0.001w      4 calls
+| PK computes JK                    :      0.000u      0.000s      0.001w      4 calls
+JK: AO2USO                          :      0.000u      0.000s      0.000w      4 calls
+Libint2ERI::Libint2ERI              :      0.033u      0.000s      0.027w     98 calls
+
+**************************************************************************************
