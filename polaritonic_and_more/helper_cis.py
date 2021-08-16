@@ -167,18 +167,18 @@ def cis(molecule_string, psi4_options_dict):
         for a in range(0, nvirt):
             ia = i*nvirt + a
             # transition dipole moment part - 
-            # NOTE: 1/sqrt(2) arises in psi4 for reasons
-            # I don't understand!
+            # NOTE: 1/sqrt(2) arises bc of spin adaptation
             tdm[0] += 2 * CCIS[ia,0] * mu_cmo_x[i,a+ndocc] / np.sqrt(2)
             tdm[1] += 2 * CCIS[ia,0] * mu_cmo_y[i,a+ndocc] / np.sqrt(2)
             tdm[2] += 2 * CCIS[ia,0] * mu_cmo_z[i,a+ndocc] / np.sqrt(2)
 
             for j in range(0, ndocc):
                 ja = j*nvirt + a
-                # total dipole moment part
-                cis_dipole[0,1] += 2 * CCIS[ia,0] * CCIS[ja,0] * mu_cmo_x[a+ndocc,a+ndocc]
-                cis_dipole[1,1] += 2 * CCIS[ia,0] * CCIS[ja,0] * mu_cmo_y[a+ndocc,a+ndocc]
-                cis_dipole[2,1] += 2 * CCIS[ia,0] * CCIS[ja,0] * mu_cmo_z[a+ndocc,a+ndocc]
+                # total dipole moment part... 1/2 arises bc of spin adaptation, cancelling 
+                # factor of 2 that occurs in the ground state!
+                cis_dipole[0,1] += CCIS[ia,0] * CCIS[ja,0] * mu_cmo_x[a+ndocc,a+ndocc] 
+                cis_dipole[1,1] += CCIS[ia,0] * CCIS[ja,0] * mu_cmo_y[a+ndocc,a+ndocc]
+                cis_dipole[2,1] += CCIS[ia,0] * CCIS[ja,0] * mu_cmo_z[a+ndocc,a+ndocc]
 
     # -sum_{a,b,i} c_i^a c_i^b \mu_ii
     for i in range(0, ndocc):
@@ -186,9 +186,9 @@ def cis(molecule_string, psi4_options_dict):
             ia = i*nvirt + a
             for b in range(0, nvirt):
                 ib = i*nvirt + b
-                cis_dipole[0,1] -= 2 * CCIS[ia,0] * CCIS[ib,0] * mu_cmo_x[i,i]
-                cis_dipole[1,1] -= 2 * CCIS[ia,0] * CCIS[ib,0] * mu_cmo_y[i,i]
-                cis_dipole[2,1] -= 2 * CCIS[ia,0] * CCIS[ib,0] * mu_cmo_z[i,i]
+                cis_dipole[0,1] -= CCIS[ia,0] * CCIS[ib,0] * mu_cmo_x[i,i]
+                cis_dipole[1,1] -= CCIS[ia,0] * CCIS[ib,0] * mu_cmo_y[i,i]
+                cis_dipole[2,1] -= CCIS[ia,0] * CCIS[ib,0] * mu_cmo_z[i,i]
 
     # return first excited state energy
     # ground and first excited state total dipole moment
